@@ -15,3 +15,6 @@ def even (n : Int) : Bool :=
 #eval String.append "great " (String.append "oak " "tree")
 
 #eval String.append (String.append "A" "B") "C"
+
+def odd (n : Int) : Bool :=
+  not (even n)
