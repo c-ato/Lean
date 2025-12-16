@@ -57,3 +57,41 @@ def vectoradd (p : Point) (q : Point) : Point :=
   { x := p.x + q.x, y := p.y + q.y }
 
 #eval distanceFromPoints pointA (vectoradd { x := 1.0, y := 2.0 } { x := 3.0, y := 4.0 })
+
+structure complex where
+  re : Float
+  im : Float
+
+def complexadd (a b : complex) : complex :=
+  { re := a.re + b.re, im := a.im + b.im }
+
+def complexmul (a b : complex) : complex :=
+  { re := a.re * b.re - a.im * b.im,
+    im := a.re * b.im + a.im * b.re }
+
+def complexconj (a : complex) : complex :=
+  { re := a.re, im := -a.im }
+
+def complexabs (a : complex) : Float :=
+  Float.sqrt (a.re ^ 2 + a.im ^ 2)
+
+def complexdiv (a b : complex) : complex :=
+  let denom := b.re ^ 2 + b.im ^ 2
+  { re := (a.re * b.re + a.im * b.im) / denom,
+    im := (a.im * b.re - a.re * b.im) / denom }
+
+def complexarg (a : complex) : Float :=
+  Float.atan2 a.im a.re
+
+structure polarcomplex where
+  r := Float, theta := Float
+
+def toPolar (a : complex) : polarcomplex :=
+  { r := complexabs a,
+    theta := complexarg a }
+
+def toCartesian (p : polarcomplex) : complex :=
+  { re := p.r * Float.cos p.theta,
+    im := p.r * Float.sin p.theta }
+
+#check complex.mk (toCartesian { r := 1.0, theta := 1.0 })
