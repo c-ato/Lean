@@ -81,10 +81,11 @@ def complexdiv (a b : complex) : complex :=
     im := (a.im * b.re - a.re * b.im) / denom }
 
 def complexarg (a : complex) : Float :=
-  Float.atan2 a.im a.re
+  a.im^2 + a.re^2
 
 structure polarcomplex where
-  r := Float, theta := Float
+  r := Float
+  theta := Float
 
 def toPolar (a : complex) : polarcomplex :=
   { r := complexabs a,
@@ -95,3 +96,30 @@ def toCartesian (p : polarcomplex) : complex :=
     im := p.r * Float.sin p.theta }
 
 #check complex.mk (toCartesian { r := 1.0, theta := 1.0 })
+
+def PetName : Type := String ⊕ String
+
+def animals : List PetName :=
+  [Sum.inl "Spot", Sum.inr "Tiger", Sum.inl "Fifi",
+   Sum.inl "Rex", Sum.inr "Floof"]
+
+def howManyDogs (pets : List PetName) : Nat :=
+  match pets with
+  | [] => 0
+  | Sum.inl _ :: morePets => howManyDogs morePets + 1
+  | Sum.inr _ :: morePets => howManyDogs morePets
+
+#eval howManyDogs animals
+
+def animals1 : List PetName :=
+  [Sum.inr "Spot"]
+
+#eval howManyDogs animals1
+
+def testpet (pets : List PetName) : List PetName :=
+  match pets with
+  | [] => []
+  | Sum.inl _ :: morePets => morePets
+  | Sum.inr _ :: morePets => morePets
+
+#eval testpet (testpet (testpet ( testpet (testpet animals))))
