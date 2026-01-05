@@ -52,10 +52,15 @@ def Prod.switch {α β : Type} (pair : α × β) : β × α :=
 
 -- Rewrite the PetName example to use a custom datatype and compare it to the version that uses Sum.
 
-structure Petname where
-  dogname : List String
-  catname : List String
+-- def Petname : Type := Prod (List String) (List String)
 
-inductive Petname2 (α : Type) (β : Type) : Type where
-  | dogname : α → Petname2 α β
-  | inr : β → Sum α β
+-- def animals : Petname := (["Spot","Cat","Rex","Bob"], ["Dog","Snow"])
+
+inductive Petnames (a : Type) (b : Type): Type where
+  | dogname : a -> Petnames a b
+  | catname : b -> Petnames a b
+
+
+def animalname : List (Petnames String String) := [Petnames.dogname "Bob", Petnames.dogname "Cat", Petnames.catname "Dog"]
+
+#eval animalname
