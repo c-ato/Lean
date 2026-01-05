@@ -50,3 +50,12 @@ def Prod.switch {α β : Type} (pair : α × β) : β × α :=
   | {fst := a, snd := b} => {fst := b, snd := a}
 
 
+-- Rewrite the PetName example to use a custom datatype and compare it to the version that uses Sum.
+
+structure Petname where
+  dogname : List String
+  catname : List String
+
+inductive Petname2 (α : Type) (β : Type) : Type where
+  | dogname : α → Petname2 α β
+  | inr : β → Sum α β
