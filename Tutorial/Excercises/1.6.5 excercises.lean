@@ -56,11 +56,9 @@ def Prod.switch {α β : Type} (pair : α × β) : β × α :=
 
 -- def animals : Petname := (["Spot","Cat","Rex","Bob"], ["Dog","Snow"])
 
-inductive Petnames (a : Type) (b : Type): Type where
-  | dogname : a -> Petnames a b
-  | catname : b -> Petnames a b
+inductive Petnames: Type where
+  | dogname : String -> Petnames
+  | catname : String -> Petnames
 
 
-def animalname : List (Petnames String String) := [Petnames.dogname "Bob", Petnames.dogname "Cat", Petnames.catname "Dog"]
-
-#eval animalname
+def animalname : List Petnames := [Petnames.dogname "Bob", Petnames.dogname "Cat", Petnames.catname "Dog"]
